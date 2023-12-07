@@ -6,6 +6,7 @@ import mlflow
 import pickle
 import numpy as np
 import tensorflow as tf
+import tensorflow_hub as hub
 from string import punctuation
 from nltk.stem import WordNetLemmatizer
 from sklearn.base import BaseEstimator, TransformerMixin
@@ -130,7 +131,7 @@ with open('prepro_pre_embed.plk', 'rb') as file:
     prepro_pre_embed = pickle.load(file)
 with open('prepro_post_embed.plk', 'rb') as file:
     prepro_post_embed = pickle.load(file)
-use = tf.saved_model.load('model_use_embed')
+use = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
 with open('y_prepro.plk', 'rb') as file:
     y_prepro = pickle.load(file)
 
