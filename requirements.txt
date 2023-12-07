@@ -1,6 +1,6 @@
 mlflow
 numpy
 tensorflow<2.11
-tensorflow_hub
+tensorflow-hub
 string
 sklearn
