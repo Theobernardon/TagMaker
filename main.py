@@ -152,3 +152,10 @@ loaded_model = mlflow.pyfunc.load_model(logged_model)
 def tag_maker(x):
     return y_prepro.inverse_transform(loaded_model.predict(prepro(x)))
 
+import pandas as pd
+df_test = pd.DataFrame({
+    'Title': ["python "],
+    'Body': ["AttributeError: Can't get attribute 'TextConcatWithWeightTransformer' on <module 'main'> "]
+     })
+
+print(tag_maker(df_test))
