@@ -1,5 +1,4 @@
 mlflow
-pickle
 numpy
 tensorflow<2.11
 tensorflow_hub
