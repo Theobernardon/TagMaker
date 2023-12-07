@@ -64,4 +64,4 @@ jobs:
         with:
           app-name: 'TagMacker'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_44AE2BF444E149BFBFE7E022772D1058 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_04ADCF48C73440C2A0B8D186527ED8DA }}
