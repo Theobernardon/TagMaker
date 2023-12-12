@@ -4,11 +4,10 @@ import nltk
 import re
 import mlflow
 import pickle
+import pandas as pd
 import numpy as np
-import tensorflow as tf
 import tensorflow_hub as hub
-from string import punctuation
-from nltk.stem import WordNetLemmatizer
+from flask import Flask, request, jsonify
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.feature_extraction.text import CountVectorizer
 
@@ -150,13 +149,15 @@ loaded_model = mlflow.pyfunc.load_model(logged_model)
 
 #### fonction d'utilisation du model ####
 
-def tag_maker(x):
-    return y_prepro.inverse_transform(loaded_model.predict(prepro(x)))
+app = Flask(__name__)
 
-import pandas as pd
-df_test = pd.DataFrame({
-    'Title': ["python "],
-    'Body': ["AttributeError: Can't get attribute 'TextConcatWithWeightTransformer' on <module 'main'> "]
-     })
+@app.route('/TagMaker', methods=['POST'])
+def tag_maker():
+    data = request.get_json()
+    x = pd.read_json(data)
+    tags_list_arr = y_prepro.inverse_transform(loaded_model.predict(prepro(x)))
+    tags = [result.tolist() for result in tags_list_arr]
+    return jsonify({'Tags': tags})
 
-print(tag_maker(df_test))
+if __name__ == '__main__':
+    app.run(debug=True)
