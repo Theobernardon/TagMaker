@@ -151,7 +151,7 @@ loaded_model = mlflow.pyfunc.load_model(logged_model)
 
 app = Flask(__name__)
 
-@app.route('/', methods=['POST'])
+@app.route('/TagMaker', methods=['POST'])
 def tag_maker():
     data = request.get_json()
     x = pd.read_json(data)
