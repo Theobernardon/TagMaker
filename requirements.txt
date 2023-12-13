@@ -3,3 +3,4 @@ numpy
 tensorflow<2.11
 scikit-learn
 flask 
+nltk
