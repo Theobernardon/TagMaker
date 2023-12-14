@@ -44,4 +44,5 @@ def tag_maker():
     return jsonify({'Tags': tags})
 
 if __name__ == '__main__':
+    from classes import TextConcatWithWeightTransformer, NLPTextTransformer, tokenize_tag
     app.run(debug=True)
