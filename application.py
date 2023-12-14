@@ -1,7 +1,7 @@
 #### importations ####
 
 import mlflow
-import pickle
+import dill
 import pandas as pd
 import numpy as np
 import tensorflow_hub as hub
@@ -11,12 +11,12 @@ from classes import TextConcatWithWeightTransformer, NLPTextTransformer, tokeniz
 #### importations des étapes de préprosessing ####
 
 with open('prepro_pre_embed.plk', 'rb') as file:
-    prepro_pre_embed = pickle.load(file)
+    prepro_pre_embed = dill.load(file)
 with open('prepro_post_embed.plk', 'rb') as file:
-    prepro_post_embed = pickle.load(file)
+    prepro_post_embed = dill.load(file)
 use = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
 with open('y_prepro.plk', 'rb') as file:
-    y_prepro = pickle.load(file)
+    y_prepro = dill.load(file)
 
 #### organisation des étapes de préprosessing ####
 
@@ -44,5 +44,4 @@ def tag_maker():
     return jsonify({'Tags': tags})
 
 if __name__ == '__main__':
-    from classes import TextConcatWithWeightTransformer, NLPTextTransformer, tokenize_tag
     app.run(debug=True)

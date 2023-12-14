@@ -5,3 +5,4 @@ tensorflow_hub
 scikit-learn
 flask 
 nltk
+dill
