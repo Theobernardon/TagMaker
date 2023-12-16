@@ -2,7 +2,6 @@
 
 import mlflow
 import re
-import dill
 import pandas as pd
 import numpy as np
 import tensorflow_hub as hub
@@ -13,6 +12,8 @@ import nltk
 import cloudpickle
 nltk.download('punkt')
 nltk.download('wordnet')
+
+app = Flask(__name__)
 
 class TextConcatWithWeightTransformer(BaseEstimator, TransformerMixin):
     def __init__(self, columns='all', poid=[1]):
@@ -62,6 +63,7 @@ class NLPTextTransformer(BaseEstimator, TransformerMixin):
         self.vocabulary = vocabulary
         self.tokenizer = tokenizer
         self.verbose = verbose
+        from sklearn.feature_extraction.text import CountVectorizer
 
     def fit(self, X, y=None):
         return self
@@ -96,7 +98,6 @@ class NLPTextTransformer(BaseEstimator, TransformerMixin):
                     print(e)
             
             if self.vocabulary is not None:
-                from sklearn.feature_extraction.text import CountVectorizer
                 # Toutes ces étapes permettent de réduire un champ lexical immense à un 
                 # champ lexical propre à chaque ligne permettant de faire une vérification 
                 # par rapport au set local beaucoup plus rapide
@@ -129,12 +130,13 @@ def tokenize_tag(text):
 #### importations des étapes de préprosessing ####
 
 with open('prepro_pre_embed.plk', 'rb') as file:
-    prepro_pre_embed = dill.load(file)
+    prepro_pre_embed = cloudpickle.load(file)
 with open('prepro_post_embed.plk', 'rb') as file:
-    prepro_post_embed = dill.load(file)
+    prepro_post_embed = cloudpickle.load(file)
 use = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
 with open('y_prepro.plk', 'rb') as file:
-    y_prepro = dill.load(file)
+    y_prepro = cloudpickle.load(file)
+    
 
 #### organisation des étapes de préprosessing ####
 
@@ -151,7 +153,6 @@ with open("model.pkl", "rb") as fichier:
 
 #### fonction d'utilisation du model ####
 
-app = Flask(__name__)
 
 @app.route('/TagMaker', methods=['POST'])
 def tag_maker():
@@ -161,14 +162,6 @@ def tag_maker():
     tags = [result.tolist() for result in tags_list_arr]
     return jsonify({'Tags': tags})
 
-def tagmaker(Title="python ", Body="An error other than the one I'm trying to debug wouldn't be a bad thing - let's keep it in the context of python blah blah computing."):
-    x = pd.DataFrame({
-    'Title': [Title],
-    'Body': [Body]
-     })
-    tags_list_arr = y_prepro.inverse_transform(loaded_model.predict(prepro(x)))
-    tags = [result.tolist() for result in tags_list_arr]
-    return jsonify({'Tags': tags})
 
 if __name__ == '__main__':
     app.run(debug=True)
