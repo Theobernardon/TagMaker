@@ -96,6 +96,7 @@ class NLPTextTransformer(BaseEstimator, TransformerMixin):
                     print(e)
             
             if self.vocabulary is not None:
+                from sklearn.feature_extraction.text import CountVectorizer
                 # Toutes ces étapes permettent de réduire un champ lexical immense à un 
                 # champ lexical propre à chaque ligne permettant de faire une vérification 
                 # par rapport au set local beaucoup plus rapide
@@ -154,7 +155,6 @@ app = Flask(__name__)
 
 @app.route('/TagMaker', methods=['POST'])
 def tag_maker():
-    from sklearn.feature_extraction.text import CountVectorizer
     data = request.get_json()
     x = pd.read_json(data)
     tags_list_arr = y_prepro.inverse_transform(loaded_model.predict(prepro(x)))
