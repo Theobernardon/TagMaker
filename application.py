@@ -10,6 +10,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from classes import TextConcatWithWeightTransformer, NLPTextTransformer, tokenize_tag
 import nltk
 nltk.download('punkt')
+nltk.download('wordnet')
 
 #### importations des étapes de préprosessing ####
 
