@@ -161,5 +161,14 @@ def tag_maker():
     tags = [result.tolist() for result in tags_list_arr]
     return jsonify({'Tags': tags})
 
+def tagmaker(Title="python ", Body="An error other than the one I'm trying to debug wouldn't be a bad thing - let's keep it in the context of python blah blah computing."):
+    x = pd.DataFrame({
+    'Title': [Title],
+    'Body': [Body]
+     }).to_json()
+    tags_list_arr = y_prepro.inverse_transform(loaded_model.predict(prepro(x)))
+    tags = [result.tolist() for result in tags_list_arr]
+    return jsonify({'Tags': tags})
+
 if __name__ == '__main__':
     app.run(debug=True)
