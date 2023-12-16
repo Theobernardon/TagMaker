@@ -5,6 +5,7 @@ import dill
 import pandas as pd
 import numpy as np
 import tensorflow_hub as hub
+import os
 from flask import Flask, request, jsonify
 from classes import TextConcatWithWeightTransformer, NLPTextTransformer, tokenize_tag
 
@@ -28,7 +29,8 @@ def prepro(x):
 
 #### importations du model ####
 
-logged_model = 'runs:/d27f094f5d75406789b792928a6f8978/best_estimator'
+print(os.get_exec_path())
+logged_model = 'mlruns/0/d27f094f5d75406789b792928a6f8978/best_estimator'
 loaded_model = mlflow.pyfunc.load_model(f'./{logged_model}')
 
 #### fonction d'utilisation du model ####
