@@ -5,10 +5,11 @@ import dill
 import pandas as pd
 import numpy as np
 import tensorflow_hub as hub
-import os
 from flask import Flask, request, jsonify
 from sklearn.feature_extraction.text import CountVectorizer
 from classes import TextConcatWithWeightTransformer, NLPTextTransformer, tokenize_tag
+import nltk
+nltk.download('punkt')
 
 #### importations des étapes de préprosessing ####
 
