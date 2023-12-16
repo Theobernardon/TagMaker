@@ -29,9 +29,39 @@ def prepro(x):
 
 #### importations du model ####
 
-print(os.get_exec_path())
+def scan_directory(root_path, indent=0):
+    """
+    Scan and print the file and folder hierarchy of the specified directory.
+
+    Parameters:
+    - root_path (str): The root directory to start scanning.
+    - indent (int): The current level of indentation for displaying the hierarchy.
+    """
+    try:
+        # List all files and folders in the current directory
+        items = os.listdir(root_path)
+
+        for item in items:
+            # Create the full path of the current item
+            full_path = os.path.join(root_path, item)
+
+            # Print the current item with appropriate indentation
+            print("  " * indent + f"- {item}")
+
+            # If the current item is a directory, recursively scan its contents
+            if os.path.isdir(full_path):
+                scan_directory(full_path, indent + 1)
+
+    except Exception as e:
+        print(f"Error scanning directory '{root_path}': {e}")
+
+# Utilisation de la fonction pour scanner un répertoire spécifique (par exemple, le répertoire de travail actuel)
+current_directory = os.getcwd()
+scan_directory(current_directory)
+
 logged_model = 'mlruns/0/d27f094f5d75406789b792928a6f8978/best_estimator'
 loaded_model = mlflow.pyfunc.load_model(f'./{logged_model}')
+
 
 #### fonction d'utilisation du model ####
 
