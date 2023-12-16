@@ -56,12 +56,9 @@ def scan_directory(root_path, indent=0):
         print(f"Error scanning directory '{root_path}': {e}")
 
 # Utilisation de la fonction pour scanner un répertoire spécifique (par exemple, le répertoire de travail actuel)
-current_directory = os.getcwd()
-scan_directory(current_directory)
 
-logged_model = 'mlruns/0/d27f094f5d75406789b792928a6f8978/best_estimator'
-loaded_model = mlflow.pyfunc.load_model(f'./{logged_model}')
-
+with open('Modelfinal.plk', 'rb') as file:
+    Modelfinal = dill.load(file)
 
 #### fonction d'utilisation du model ####
 
@@ -71,7 +68,7 @@ app = Flask(__name__)
 def tag_maker():
     data = request.get_json()
     x = pd.read_json(data)
-    tags_list_arr = y_prepro.inverse_transform(loaded_model.predict(prepro(x)))
+    tags_list_arr = y_prepro.inverse_transform(Modelfinal.predict(prepro(x)))
     tags = [result.tolist() for result in tags_list_arr]
     return jsonify({'Tags': tags})
 
