@@ -165,7 +165,7 @@ def tagmaker(Title="python ", Body="An error other than the one I'm trying to de
     x = pd.DataFrame({
     'Title': [Title],
     'Body': [Body]
-     }).to_json()
+     })
     tags_list_arr = y_prepro.inverse_transform(loaded_model.predict(prepro(x)))
     tags = [result.tolist() for result in tags_list_arr]
     return jsonify({'Tags': tags})
