@@ -29,7 +29,7 @@ def prepro(x):
 #### importations du model ####
 
 logged_model = 'runs:/d27f094f5d75406789b792928a6f8978/best_estimator'
-loaded_model = mlflow.pyfunc.load_model(logged_model)
+loaded_model = mlflow.pyfunc.load_model(f'./{logged_model}')
 
 #### fonction d'utilisation du model ####
 
