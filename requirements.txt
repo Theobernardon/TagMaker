@@ -6,3 +6,4 @@ scikit-learn
 flask 
 nltk
 dill
+cloudpickle==2.2.1

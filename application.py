@@ -9,6 +9,7 @@ from flask import Flask, request, jsonify
 from sklearn.feature_extraction.text import CountVectorizer
 from classes import TextConcatWithWeightTransformer, NLPTextTransformer, tokenize_tag
 import nltk
+import cloudpickle
 nltk.download('punkt')
 nltk.download('wordnet')
 
@@ -32,8 +33,8 @@ def prepro(x):
 
 #### importations du model ####
 
-with open('Modelfinal.plk', 'rb') as file:
-    Modelfinal = dill.load(file)
+with open("model.pkl", "rb") as fichier:
+    loaded_model = cloudpickle.load(fichier)
 
 #### fonction d'utilisation du model ####
 
@@ -43,7 +44,7 @@ app = Flask(__name__)
 def tag_maker():
     data = request.get_json()
     x = pd.read_json(data)
-    tags_list_arr = y_prepro.inverse_transform(Modelfinal.predict(prepro(x)))
+    tags_list_arr = y_prepro.inverse_transform(loaded_model.predict(prepro(x)))
     tags = [result.tolist() for result in tags_list_arr]
     return jsonify({'Tags': tags})
 
